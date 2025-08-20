@@ -22,5 +22,5 @@ print("massa nykymittojen mukaan")
 print(int(kiloina),"kg")
 #grammoina
 grammat =grammoina/1000-int(kiloina)
-print(grammat)
+print(f"{grammat:.4f} grammaa")
 # %1000 saa sen mitä jää jälelle
