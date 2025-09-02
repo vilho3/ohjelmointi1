@@ -19,7 +19,7 @@ yhteys = mysql.connector.connect(
 def lentokenttä():
     icao = input("Anna lentokentän icao-koodi: ")
     sql=f'select name from airport where ident like "{icao}";'
-    print(sql)
+    #print(sql)
     kursori=yhteys.cursor()
     kursori.execute(sql)
     tulos=kursori.fetchall()

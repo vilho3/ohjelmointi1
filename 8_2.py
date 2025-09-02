@@ -19,7 +19,7 @@ yhteys = mysql.connector.connect(
 def maa_koodi():
     koodi=input("Anna maakodi: ")
     sql=f'select type, count(*) from airport where iso_country ="{koodi}" group by type order by count(*) desc'
-    print(sql)
+    #print(sql)
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos =kursori.fetchall()
