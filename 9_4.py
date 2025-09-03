@@ -32,26 +32,21 @@ class Auto:
 
 def main():
     lista=[]
+    käynissä= True
+
     for i in range(1,11):
         rekisteritunnus=f"ABC-{i}"
         huippunopeus=random.randint(100,200)
         auto=Auto(rekisteritunnus, huippunopeus)
         lista.append(auto)
-#    for auto in lista:
-#        print(auto)
 
-    while True:
-        if auto.kuljettu_matka >=10000:
-            print(lista)
+    while käynissä:
+        for auto in lista:
+            auto.kulje(1)
+            auto.kiihdytä(+random.randint(-10,15))
 
-
-            break
-        auto.kulje(1)
-        auto.kiihdytä(+random.randint(-10,15))
-
-
-
-
-
-
+            if auto.kuljettu_matka >=10000:
+                for auto in lista:
+                    print(f"{auto.rekisteritunnus} kuljettu matka: {auto.kuljettu_matka} km, tämänhetkinen nopeus: {auto.tämänhetkinen_nopeus} km/h, huippunopeus: {auto.huippunopeus} km/h\n")
+                käynissä=False
 main()

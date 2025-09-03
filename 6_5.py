@@ -4,7 +4,7 @@
 # Kirjoita testausta varten pääohjelma, jossa luot listan, kutsut funktiota
 # ja tulostat sen jälkeen sekä alkuperäisen että karsitun listan.
 
-def luku():
+def luku(lista):
     lista=[]
     for x in luvut:
         if x %2==0:
@@ -13,6 +13,6 @@ def luku():
 
 if __name__=="__main__":
     luvut=[100,200,23,126,125,1]
-    lista=luku()
+
     print(luvut)
-    print(lista)
+    print(luku(luvut))

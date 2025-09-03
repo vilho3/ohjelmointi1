@@ -6,17 +6,16 @@
 #Yksi gallona on 3,785 litraa.
 
 
-def bensiini ():
-    gallonat = int(input("Anna gallonat: "))
-    litra= gallonat*3.785
-    if gallonat>0:
+def bensiini (benzin):
+    litra=benzin*3.785
+    if benzin>0:
         print(f"se on {litra} litraa")
-    return gallonat
+    return benzin
 ohjelma=True
 while ohjelma == True:
-    gallonat = bensiini()
+    gallonat = int(input("Anna gallonat: "))
+    bensiini(gallonat)
     if gallonat < 0:
         ohjelma = False
-        break
-    bensiini()
+
 

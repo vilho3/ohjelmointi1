@@ -9,7 +9,7 @@ def pizza(halkaisija,hinta_euro):
     halkaisija=math.pi*(halkaisija/2)**2
     halkaisija = hinta_euro/halkaisija
     print(f"{halkaisija} €/m^2")
-    return halkaisija
+    return halkaisija, hinta_euro
 
 
 if __name__ == '__main__':
@@ -19,9 +19,9 @@ if __name__ == '__main__':
     hinta2 =float(input("Anna toisen pizzan hinta euroina: "))
     vastine = pizza(halkaisija1,hinta1)
     vastine2 = pizza(halkaisija2,hinta2)
-    if vastine >vastine2:
+    if vastine <vastine2:
         print("Ensimmäinen pizza on parempi vastine rahalle! ")
-    elif vastine < vastine2:
+    elif vastine > vastine2:
         print("Toinen pizza on parempi vastine rahalle! ")
     else:
         print("Molemmat pizzat ovat yhtä hyvä vastine rahalle! ")

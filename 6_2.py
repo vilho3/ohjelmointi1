@@ -5,11 +5,11 @@
 import random
 tahkot=int(input("Anna tahkojen määrä: "))
 
-def noppa():
-    luku = random.randint(1,tahkot)
+def noppa(tahko):
+    luku = random.randint(1,tahko)
     return luku
 
 silmäluku=0
 while silmäluku != tahkot:
-    silmäluku = noppa()
+    silmäluku = noppa(tahkot)
     print(silmäluku)
