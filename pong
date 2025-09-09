@@ -1,0 +1,173 @@
+import pygame
+import random
+
+pygame.init()
+
+win = pygame.display.set_mode((500, 400))
+
+pygame.display.set_caption("Pong")
+
+x = 250
+y = 1
+width = 2
+height = 60
+height2 = 400
+vel = 15
+vel2 = 25
+width2 = 500
+height2 = 400
+
+# värit
+väri1 = (255, 200, 0)
+väri2 = (255, 255, 255)
+musta = (0, 0, 0)
+
+
+# mailat ja pallo
+class Pelaaja1(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(väri1)
+        self.rect = self.image.get_rect()
+        self.points = 0
+
+
+class Pelaaja2(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([20, 80])
+        self.image.fill(väri1)
+        self.rect = self.image.get_rect()
+        self.points = 0
+
+
+class pallo(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([20, 20])
+        self.image.fill(väri2)
+        self.rect = self.image.get_rect()
+        self.speed = 20
+        self.dx = 1 * random.choice((1, -1))
+        self.dy = 1 * random.choice((1, -1))
+
+
+pelaaja1 = Pelaaja1()
+pelaaja1.rect.x = 1
+pelaaja1.rect.y = 170
+
+pelaaja2 = Pelaaja2()
+pelaaja2.rect.x = 480
+pelaaja2.rect.y = 170
+
+pallo1 = pallo()
+pallo1.rect.x = 225
+pallo1.rect.y = 170
+
+spritet = pygame.sprite.Group()
+spritet.add(pelaaja1, pelaaja2, pallo1)
+
+
+
+def redraw():
+    font = pygame.font.SysFont("impact", 25)
+    win.fill(musta)
+    pygame.draw.rect(win, (128, 128, 128), (x, y, width, height2))
+    text = font.render("PONG", False, väri2)
+    text1 = font.render("Pelaaja1", False, väri2)
+    text2 = font.render("Pelaaja2", False, väri2)
+    text3 = font.render("Kun pidät 1 pohjassa AI menee päälle", False, väri2)
+    textRect = text.get_rect()
+    textRect1 = text1.get_rect()
+    textRect2 = text2.get_rect()
+    textRect3 = text3.get_rect()
+    textRect3.center = 500// 2, 45
+    textRect1.center = (140, 25)
+    textRect2.center = (360, 25)
+    textRect.center = (500 // 2, 15)
+    win.blit(text, textRect)
+    win.blit(text1, textRect1)
+    win.blit(text2, textRect2)
+    win.blit(text3,textRect3)
+    spritet.draw(win)
+    pygame.display.update()
+
+    p1pisteet = font.render(str(pelaaja1.points), False, väri1)
+    p1rect = p1pisteet.get_rect()
+    p1rect.center = (50, 50)
+    win.blit(p1pisteet, p1rect)
+
+    p2pisteet = font.render(str(pelaaja2.points), False, väri1)
+    p2rect = p2pisteet.get_rect()
+    p2rect.center = (450, 50)
+    win.blit(p2pisteet, p2rect)
+    spritet.draw(win)
+    pygame.display.update()
+
+
+run = True
+while run:
+    pygame.time.delay(100)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    redraw()
+
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_w] and pelaaja1.rect.y > vel:
+        pelaaja1.rect.y -= vel
+    if keys[pygame.K_s] and pelaaja1.rect.y < 400 - height - vel:
+        pelaaja1.rect.y += vel
+
+    if keys[pygame.K_UP] and pelaaja2.rect.y > vel:
+        pelaaja2.rect.y -= vel
+    if keys[pygame.K_DOWN] and pelaaja2.rect.y < 400 - height - vel:
+        pelaaja2.rect.y += vel
+
+    # pallon liikkuminen
+    pallo1.rect.x += pallo1.speed * pallo1.dx
+    pallo1.rect.y -= pallo1.speed * pallo1.dy
+
+    # seiniin osuminen
+    if pallo1.rect.y < 0 or pallo1.rect.y > height2 - 20:
+        pallo1.dy *= -1
+
+    if pallo1.rect.x > 490:
+        pallo1.rect.x, pallo1.rect.y = 230, 170
+        pallo1.dx *= random.choice((1, -1))
+        pallo1.dy *= random.choice((1, -1))
+        pelaaja1.points += 1
+
+    if pallo1.rect.x < 1:
+        pallo1.rect.x, pallo1.rect.y = 230, 170
+        pallo1.dx *= random.choice((1, -1))
+        pallo1.dy *= random.choice((1, -1))
+        pelaaja2.points += 1
+
+    # mailaan osuminen
+    if pelaaja1.rect.colliderect(pallo1.rect):
+        pallo1.dx = 1
+
+    if pelaaja2.rect.colliderect(pallo1.rect):
+        pallo1.dx = -1
+
+    if pelaaja1.points > 4 or pelaaja2.points > 4:
+        pallo1.speed = 25
+
+    #kun painaa 1 AI menee päälle
+    if keys[pygame.K_1]:
+      if pelaaja1.rect.y - 35 < pallo1.rect.y and pelaaja1.rect.y < 400 - height - vel2:
+          pelaaja1.rect.y += vel2
+      if pelaaja1.rect.y > pallo1.rect.y and pelaaja1.rect.y > vel2:
+          pelaaja1.rect.y -= vel2
+
+
+
+    pygame.display.update()
+pygame.quit()
+
+
+
